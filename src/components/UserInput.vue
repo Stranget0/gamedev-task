@@ -1,8 +1,8 @@
 <template>
   <div :class="['grid', 'w-full', containerClass]">
-    <AppTypography as="label" type="label" :for="props.name" :class="[labelClass, 'mb-2']">{{
-      props.label
-    }}</AppTypography>
+    <AppTypography as="label" type="label" :for="props.name" :class="[labelClass, 'mb-2']"
+      ><slot
+    /></AppTypography>
     <input
       :type="props.type"
       :name="props.name"

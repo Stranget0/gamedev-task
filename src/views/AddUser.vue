@@ -2,8 +2,8 @@
   <SplitLayout as="form" title="Add user" leftContainerClass="flex flex-col justify-between">
     <template #default>
       <div class="flex gap-4">
-        <UserInput label="First Name" name="firstName" />
-        <UserInput label="Last Name" name="lastName" />
+        <UserInput name="firstName">First Name</UserInput>
+        <UserInput name="lastName">Last Name</UserInput>
       </div>
 			<AppButton type="submit" variant="solid" class="w-fit">
 				Update details

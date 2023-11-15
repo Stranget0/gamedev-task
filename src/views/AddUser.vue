@@ -5,9 +5,7 @@
         <UserInput name="firstName">First Name</UserInput>
         <UserInput name="lastName">Last Name</UserInput>
       </div>
-			<AppButton type="submit" variant="solid" class="w-fit">
-				Update details
-			</AppButton>
+      <AppButton type="submit" variant="solid" class="w-fit"> Update details </AppButton>
     </template>
     <template #aside>
       <img
@@ -16,9 +14,10 @@
         height="128"
         class="mx-auto rounded-full border-2 border-slate-300"
       />
-      <AppButton as="input" type="file" name="avatar" variant="outline" class="gap-2 w-full mt-20"
-        ><Icon icon="material-symbols:photo-camera-rounded" /><span>Change photo</span></AppButton
-      >
+      <AppButton as="input" type="file" name="avatar" variant="outline" class="gap-2 w-full mt-20">
+        <Icon icon="material-symbols:photo-camera-rounded" />
+        <span>Change photo</span>
+      </AppButton>
     </template>
   </SplitLayout>
 </template>

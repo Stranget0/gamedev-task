@@ -31,11 +31,11 @@ defineOptions({
 const classes = {
   input: {
     outline: 'bg-transparent border-2 border-slate-300 rounded',
-    background: 'bg-slate-200 col-start-1 col-end-1 row-start-1 row-end-1'
+    solid: 'bg-slate-200 col-start-1 col-end-1 row-start-1 row-end-1'
   },
   label: {
     outline: 'text-slate-700 font-bold',
-    background: 'text-slate-700 col-start-1 col-end-1 row-start-1 row-end-1'
+    solid: 'text-slate-700 col-start-1 col-end-1 row-start-1 row-end-1'
   }
 }
 
@@ -44,7 +44,7 @@ const props = withDefaults(
     name: string
     label: string
     type?: string
-    variant: 'outline' | 'background'
+    variant: 'outline' | 'solid'
     containerClass?: string
   }>(),
   { type: 'text', variant: 'outline' }

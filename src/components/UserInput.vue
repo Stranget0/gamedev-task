@@ -1,16 +1,19 @@
 <template>
-  <div :class="['grid', 'w-full', containerClass]">
-    <AppTypography as="label" type="label" :for="props.name" :class="[labelClass, 'mb-2']"
+  <div :class="['group grid w-full', containerClass]">
+    <AppTypography
+      as="label"
+      type="label"
+      :for="props.name"
+      :class="[props.labelClass, classes.labelClass, 'mb-2']"
       ><slot
     /></AppTypography>
     <input
       :type="props.type"
       :name="props.name"
       :id="props.name"
-      class="px-4 py-1"
-      :class="inputClass"
+      :class="[classes.inputClass, hSpacingClass, 'py-1']"
       :aria-invalid="isError"
-      v-model="value"
+      v-model="fieldValue"
       v-bind="$attrs"
     />
   </div>
@@ -22,22 +25,14 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate'
 import AppTypography from './AppTypography.vue'
+import { computed } from 'vue';
 
 defineOptions({
   // Pass manually to input element
   inheritAttrs: false
 })
 
-const classes = {
-  input: {
-    outline: 'bg-transparent border-2 border-slate-300 rounded',
-    solid: 'bg-slate-200 col-start-1 col-end-1 row-start-1 row-end-1'
-  },
-  label: {
-    outline: 'text-slate-700 font-bold',
-    solid: 'text-slate-700 col-start-1 col-end-1 row-start-1 row-end-1'
-  }
-}
+const hSpacingClass = 'px-4'
 
 const props = withDefaults(
   defineProps<{
@@ -46,13 +41,29 @@ const props = withDefaults(
     type?: string
     variant: 'outline' | 'solid'
     containerClass?: string
+    labelClass?: string
   }>(),
   { type: 'text', variant: 'outline' }
 )
 
-const { value, errorMessage } = useField(() => props.name)
+const { value: fieldValue, errorMessage } = useField(() => props.name)
+const classes = computed(()=>{
+	const classesDict = {
+		input: {
+			outline: 'bg-transparent border-2 border-slate-300 rounded',
+			solid: 'bg-slate-200 col-start-1 col-end-1 row-start-1 row-end-1 rounded'
+		},
+		label: {
+			outline: 'text-slate-700 font-bold',
+			solid: `${hSpacingClass} h-full relative z-2 text-slate-500 font-bold col-start-1 col-end-1 row-start-1 row-end-1 pointer-events-none origin-left motion-safe:transition ${
+				fieldValue.value ? '-translate-y-full' : 'group-focus-within:-translate-y-full'
+			}`
+		}
+	}
+	const inputClass = classesDict.input[props.variant]
+	const labelClass = classesDict.label[props.variant]
+	return {inputClass, labelClass}
+})
 
 const isError = !!errorMessage
-const inputClass = classes.input[props.variant]
-const labelClass = classes.label[props.variant]
 </script>

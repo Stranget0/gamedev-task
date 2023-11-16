@@ -2,7 +2,7 @@
   <SectionTitle>{{ title }}</SectionTitle>
   <component
     :is="tag"
-    class="bg-slate-200 p-2 grid gap-4 grid-rows-[2fr,1fr] md:grid-cols-[2fr,1fr] md:grid-rows-none"
+    class="bg-slate-200 p-2 grid gap-4  md:grid-cols-[2fr,1fr] md:grid-rows-none"
     :class="containerClass"
 		v-bind="$attrs"
   >

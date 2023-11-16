@@ -4,6 +4,6 @@
 
 @layer components {
   .box {
-		@apply pb-6 px-6 py-12 rounded bg-slate-50 border-2 border-slate-300;
+		@apply min-w-min pb-6 px-6 py-12 rounded bg-slate-50 border-2 border-slate-300;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-	<nav
+  <nav
     class="mx-2 flex overflow-hidden w-fit rounded border-y-2 border-x border-slate-200 bg-slate-200 gap-[1px]"
   >
     <AppButton
@@ -15,13 +15,13 @@
     <AppButton
       v-for="num in shownNum"
       :as="RouterLink"
-      :key="num"
-      :variant="props.current === num ? 'solid' : 'solid-inv'"
-      :to="hrefCreator(offset + num)"
+      :key="num + offset"
+      :variant="props.current === num + offset ? 'solid' : 'solid-inv'"
+      :to="hrefCreator(num + offset)"
       class="w-8 h-8 rounded-none border-slate-200"
       noSpacing
     >
-      {{ offset + num }}
+      {{ num + offset }}
     </AppButton>
     <AppButton
       :as="RouterLink"
@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import AppButton from '@/components/AppButton.vue'
-import { computed } from 'vue';
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const props = withDefaults(
@@ -53,10 +53,11 @@ const props = withDefaults(
     current: 1
   }
 )
-const offset = computed(()=> Math.floor(props.total / props.max))
-const shownNum = computed(()=>Math.min(props.max, props.total % props.max) + offset.value)
 
-const isPrevDisabled = computed(()=>props.current <= 1)
-const isNextDisabled = computed(()=>props.current === props.total)
-
+const offset = computed(() => 	Math.max(0, props.current - Math.floor(props.max / 2)))
+const shownNum = computed(() =>
+  Math.max(Math.min(props.total, props.max), Math.min(props.total - offset.value, props.max))
+)
+const isPrevDisabled = computed(() => props.current <= 1)
+const isNextDisabled = computed(() => props.current === props.total)
 </script>

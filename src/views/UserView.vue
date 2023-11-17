@@ -63,7 +63,7 @@ import { computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 type UserIdObj = {
-  userId: string
+  passedUserId: string
 }
 
 const props = defineProps<Partial<User & UserIdObj>>()
@@ -72,10 +72,10 @@ const router = useRouter()
 const mutationKey = computed(() => ('id' in props ? ['updateUser', props.id] : ['createUser']))
 
 const { data, isLoading, error } = useQuery({
-  queryKey: ['getUser', props.userId],
+  queryKey: ['getUser', props.passedUserId],
   queryFn: () => {
-    if (props.userId !== undefined) {
-      return getUser(props.userId)
+    if (props.passedUserId !== undefined) {
+      return getUser(props.passedUserId)
     }
     return null
   }

@@ -14,6 +14,7 @@
       :class="[classes.inputClass, hSpacingClass, 'py-1']"
       :aria-invalid="isError"
       v-bind="$attrs"
+			v-model="fieldValue"
     />
   </div>
   <AppTypography v-if="!!errorMessage" type="label" error aria-errormessage>{{
@@ -55,7 +56,7 @@ const classes = computed(()=>{
 		label: {
 			outline: 'text-slate-700 font-bold',
 			solid: `${hSpacingClass} h-full relative z-2 text-slate-500 font-bold col-start-1 col-end-1 row-start-1 row-end-1 pointer-events-none origin-left motion-safe:transition ${
-				fieldValue.value ? '-translate-y-full' : 'group-focus-within:-translate-y-full'
+				`${fieldValue.value??""}`.length>0 ? '-translate-y-full' : 'group-focus-within:-translate-y-full'
 			}`
 		}
 	}

@@ -26,7 +26,7 @@
       </template>
       <template #aside>
         <img
-          :src="userAvatar || '@/assets/avatar_default.svg'"
+          :src="userAvatar"
           width="128"
           height="128"
           class="mx-auto rounded-full border-2 border-slate-300"
@@ -78,7 +78,7 @@ const { data, isLoading, error } = useQuery({
 })
 
 const { handleSubmit, resetForm, setValues } = useForm({
-  initialValues: data.value?.data,
+  initialValues: { avatar: '/assets/avatar_default.svg' },
   validationSchema: toTypedSchema(
     object({
       first_name: string(),
@@ -117,5 +117,5 @@ const onSubmit = handleSubmit((data) => {
   createOrUpdate(data)
 })
 
-const {value: userAvatar} = useField<string | undefined>("avatar")
+const { value: userAvatar } = useField<string | undefined>('avatar')
 </script>

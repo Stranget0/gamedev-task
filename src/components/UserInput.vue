@@ -13,7 +13,6 @@
       :id="props.name"
       :class="[classes.inputClass, hSpacingClass, 'py-1']"
       :aria-invalid="isError"
-      v-model="fieldValue"
       v-bind="$attrs"
     />
   </div>
@@ -37,9 +36,8 @@ const hSpacingClass = 'px-4'
 const props = withDefaults(
   defineProps<{
     name: string
-    label: string
     type?: string
-    variant: 'outline' | 'solid'
+    variant?: 'outline' | 'solid'
     containerClass?: string
     labelClass?: string
   }>(),
@@ -47,6 +45,7 @@ const props = withDefaults(
 )
 
 const { value: fieldValue, errorMessage } = useField(() => props.name)
+
 const classes = computed(()=>{
 	const classesDict = {
 		input: {

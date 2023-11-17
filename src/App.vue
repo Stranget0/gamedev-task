@@ -16,7 +16,7 @@ onUnmounted(() => {
     <nav>
       <ul class="flex justify-end items-center gap-4">
         <li>
-          <RouterLink to="/">User List</RouterLink>
+          <RouterLink to="/users/1">User List</RouterLink>
         </li>
         <li>
           <RouterLink to="/add-user">Add User</RouterLink>

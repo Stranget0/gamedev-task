@@ -1,36 +1,30 @@
 <template>
-  <component  :is="tag" :class="[typeClass, isBold && 'font-bold', isError && 'text-red-500']"
+  <component :is="tag" :class="[typeClass, isBold && 'font-bold', isError && 'text-red-500']"
     ><slot
   /></component>
 </template>
 
-<script lang="ts">
-
-type Types = 'body' | 'title' | 'label'
-type TypeDict = { [t in Types]: string }
-
-interface Props {
-  as: 'p' | 'span'
-  type: Types
-  bold?: boolean
-  error?: boolean
-}
-</script>
-
 <script setup lang="ts">
+import { toRefs } from 'vue'
 
-const typeClasses: TypeDict = {
+const typeClasses = {
   body: 'text-base',
   label: 'text-sm text-slate-400',
   title: 'text-4xl'
 }
+type Types = keyof typeof typeClasses
 
-const {
-  as: tag,
-  type,
-  bold: isBold,
-  error: isError
-} = withDefaults(defineProps<Props>(), { as: 'p', type: 'body' })
+const props = withDefaults(
+  defineProps<{
+    as?: 'p' | 'span'
+    type?: Types
+    bold?: boolean
+    error?: boolean
+  }>(),
+  { as: 'p', type: 'body' }
+)
 
-const typeClass = typeClasses[type]
+const typeClass = typeClasses[props.type]
+
+const { as: tag, bold: isBold, error: isError } = toRefs(props)
 </script>

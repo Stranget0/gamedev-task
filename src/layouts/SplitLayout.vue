@@ -1,15 +1,15 @@
 <template>
-  <SectionTitle>{{ title }}</SectionTitle>
+  <SectionTitle>{{ props.title }}</SectionTitle>
   <component
-    :is="tag"
+    :is="props.as"
     class="bg-slate-200 p-2 grid gap-4  md:grid-cols-[2fr,1fr] md:grid-rows-none"
-    :class="containerClass"
+    :class="props.containerClass"
 		v-bind="$attrs"
   >
-    <section class="box" :class="leftContainerClass">
+    <section class="box" :class="props.leftContainerClass">
       <slot>Content</slot>
     </section>
-    <section class="box" :class="rightContainerClass">
+    <section class="box" :class="props.rightContainerClass">
       <slot name="aside">Aside</slot>
     </section>
   </component>
@@ -22,13 +22,7 @@ defineOptions({
   inheritAttrs: false
 })
 
-const {
-  title,
-  containerClass,
-  leftContainerClass,
-  rightContainerClass,
-  as: tag
-} = withDefaults(
+const props = withDefaults(
   defineProps<{
     title: string
     containerClass?: string

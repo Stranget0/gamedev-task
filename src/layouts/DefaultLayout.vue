@@ -1,6 +1,6 @@
 <template>
-  <SectionTitle>{{ title }}</SectionTitle>
-  <component :is="tag" :class="['box', containerClass]" v-bind="$attrs">
+  <SectionTitle>{{ props.title }}</SectionTitle>
+  <component :is="props.as" :class="['box', props.containerClass]" v-bind="$attrs">
     <slot>Content</slot>
   </component>
 </template>
@@ -19,12 +19,9 @@ defineOptions({
   inheritAttrs: false
 })
 
-const {
-  title,
-  containerClass,
-  as: tag
-} = withDefaults(defineProps<Props>(), {
+ const props = withDefaults(defineProps<Props>(), {
   containerClass: 'mx-2 my-8',
   as: 'section'
 })
+
 </script>

@@ -14,7 +14,6 @@
           :type="createOrUpdateIsPending ? 'button' : 'submit'"
           variant="solid"
           class="w-fit mt-20"
-          :errorMessage="createOrUpdateIsPending ? '' : createOrUpdateError"
         >
           {{ createOrUpdateIsPending ? 'Loading...' : 'Update details' }}
         </AppButton>
@@ -58,6 +57,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { object, string } from 'zod'
 import { createUser, getUser, updateUser } from '@/api/userQueries'
 import { useMutation, useQuery } from '@tanstack/vue-query'
+import { useToast } from 'vue-toast-notification'
 import { computed, watch } from 'vue'
 
 type UserIdObj = {
@@ -88,16 +88,14 @@ const { handleSubmit, resetForm, setValues } = useForm({
   )
 })
 
+const $toast = useToast()
+
 watch(data, () => {
   if (!data.value) return
   setValues(data.value.data)
 })
 
-const {
-  mutate: createOrUpdate,
-  error: createOrUpdateError,
-  isPending: createOrUpdateIsPending
-} = useMutation({
+const { mutate: createOrUpdate, isPending: createOrUpdateIsPending } = useMutation({
   mutationKey,
   mutationFn: async (values: UserFormData) => {
     if (props.id !== undefined) {
@@ -106,7 +104,13 @@ const {
       await createUser(values)
     }
   },
-  onSuccess: () => resetForm()
+  onSuccess: () => {
+    resetForm()
+    $toast.success('User added!')
+  },
+  onError: (e) => {
+    $toast.error(e.message)
+  }
 })
 
 const onSubmit = handleSubmit((data) => {

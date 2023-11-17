@@ -1,5 +1,12 @@
 <template>
-  <component :is="tag" :class="[typeClass, isBold && 'font-bold', isError && 'text-red-500']"
+  <component
+    :is="tag"
+    :class="[
+      typeClass,
+      isBold && 'font-bold',
+      isError && 'text-red-500',
+      isSuccess && 'text-green-800'
+    ]"
     ><slot
   /></component>
 </template>
@@ -20,11 +27,12 @@ const props = withDefaults(
     type?: Types
     bold?: boolean
     error?: boolean
+    success?: boolean
   }>(),
   { as: 'p', type: 'body' }
 )
 
 const typeClass = typeClasses[props.type]
 
-const { as: tag, bold: isBold, error: isError } = toRefs(props)
+const { as: tag, bold: isBold, error: isError, success: isSuccess } = toRefs(props)
 </script>

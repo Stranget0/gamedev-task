@@ -12,10 +12,12 @@ export interface User {
   email: string
   first_name: string
   last_name: string
-  avatar: string
+  avatar?: string
 }
 
 export interface Support {
   url: string
   text: string
 }
+
+export type UserFormData = Pick<User, 'first_name' | 'last_name' | 'avatar'>

@@ -26,7 +26,7 @@
       </template>
       <template #aside>
         <img
-          src="@/assets/avatar_default.svg"
+          :src="userAvatar || '@/assets/avatar_default.svg'"
           width="128"
           height="128"
           class="mx-auto rounded-full border-2 border-slate-300"
@@ -52,7 +52,7 @@ import UserInput from '@/components/UserInput.vue'
 import { Icon } from '@iconify/vue'
 import SplitLayout from '@/layouts/SplitLayout.vue'
 import type { User, UserFormData } from '@/api/userTypes'
-import { useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { object, string } from 'zod'
 import { createUser, getUser, updateUser } from '@/api/userQueries'
@@ -116,4 +116,6 @@ const { mutate: createOrUpdate, isPending: createOrUpdateIsPending } = useMutati
 const onSubmit = handleSubmit((data) => {
   createOrUpdate(data)
 })
+
+const {value: userAvatar} = useField<string | undefined>("avatar")
 </script>

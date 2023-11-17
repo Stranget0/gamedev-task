@@ -2,7 +2,7 @@
   <form @submit.prevent="onSubmit">
     <SplitLayout
       title="Add user"
-      leftContainerClass="flex flex-col justify-between"
+      leftContainerClass="flex flex-col justify-between relative"
       rightContainerClass="max-md:row-start-1"
     >
       <template #default>
@@ -18,6 +18,12 @@
         >
           {{ createOrUpdateIsPending ? 'Loading...' : 'Update details' }}
         </AppButton>
+        <Icon
+          v-if="isLoading"
+          icon="svg-spinners:clock"
+          class="w-16 h-16 absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]"
+        />
+        <AppTypography v-else-if="error && !isLoading" error bold>{{ error }}</AppTypography>
       </template>
       <template #aside>
         <img
@@ -52,7 +58,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { object, string } from 'zod'
 import { createUser, getUser, updateUser } from '@/api/userQueries'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 type UserIdObj = {
   userId: string
@@ -61,17 +67,18 @@ type UserIdObj = {
 const props = defineProps<Partial<User & UserIdObj>>()
 const mutationKey = computed(() => ('id' in props ? ['updateUser', props.id] : ['createUser']))
 
-const { data } = useQuery({
+const { data, isLoading, error } = useQuery({
   queryKey: ['getUser', props.userId],
   queryFn: () => {
     if (props.userId !== undefined) {
       return getUser(props.userId)
     }
-		return null
+    return null
   }
 })
-const { handleSubmit, resetForm } = useForm({
-  initialValues: data,
+
+const { handleSubmit, resetForm, setValues } = useForm({
+  initialValues: data.value?.data,
   validationSchema: toTypedSchema(
     object({
       first_name: string(),
@@ -80,6 +87,12 @@ const { handleSubmit, resetForm } = useForm({
     })
   )
 })
+
+watch(data, () => {
+  if (!data.value) return
+  setValues(data.value.data)
+})
+
 const {
   mutate: createOrUpdate,
   error: createOrUpdateError,
@@ -97,6 +110,6 @@ const {
 })
 
 const onSubmit = handleSubmit((data) => {
-	createOrUpdate(data)
+  createOrUpdate(data)
 })
 </script>

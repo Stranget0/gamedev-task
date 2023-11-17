@@ -3,10 +3,10 @@
     <template v-if="items.length > 0">
       <slot name="header" />
       <div v-if="props.error || props.isLoading" class="flex justify-center">
-        <AppTypography v-if="props.error && !props.isLoading" error bold>{{
+				<Icon v-if="props.isLoading" icon="svg-spinners:clock" class="w-8 h-8" />
+        <AppTypography v-else-if="props.error && !props.isLoading" error bold>{{
           props.error
         }}</AppTypography>
-        <Icon v-if="props.isLoading" icon="svg-spinners:clock" class="w-8 h-8" />
       </div>
       <ul>
         <ListComponent v-bind="item" v-for="item in items" :key="item.id" />

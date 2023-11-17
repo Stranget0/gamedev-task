@@ -1,4 +1,4 @@
-import type { User, UserFormData, UserListResponse } from './userTypes'
+import type { UserFormData, UserListResponse, UserResponse } from './userTypes'
 import { appFetch } from './utils'
 
 const baseUrl = 'https://reqres.in/api'
@@ -8,7 +8,7 @@ export async function getUsers(page = 1) {
 }
 
 export async function getUser(userId: string | number) {
-  return await appFetch<User>(`${baseUrl}/users/${userId}`)
+  return await appFetch<UserResponse>(`${baseUrl}/users/${userId}`)
 }
 
 export async function deleteUser(userId: string | number) {

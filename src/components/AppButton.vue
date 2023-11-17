@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-// import { useField } from 'vee-validate'
 import { toRefs, type Component, computed } from 'vue'
 import AppTypography from './AppTypography.vue'
 
@@ -52,9 +51,7 @@ const {
 const spacingClass = computed(() =>
   isNoSpacing.value ?? variant.value === 'clean' ? '' : 'py-2 px-8'
 )
-
 const variantClass = computed(() => variants[variant.value])
-
 const visualClass = computed(() => [
   'text-center flex justify-center items-center cursor-pointer',
   variantClass.value,
@@ -62,6 +59,5 @@ const visualClass = computed(() => [
   className?.value,
   isDisabled.value && 'opacity-50'
 ])
-
 const buttonClass = computed(() => (tag.value !== 'input' ? visualClass.value : 'hidden'))
 </script>

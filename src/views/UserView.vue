@@ -17,6 +17,7 @@
         >
           {{ createOrUpdateIsPending ? 'Loading...' : 'Update details' }}
         </AppButton>
+        <AppButton v-if="props.id !== undefined" @click="deleteThisUser">Delete</AppButton>
         <Icon
           v-if="isLoading"
           icon="svg-spinners:clock"
@@ -55,16 +56,19 @@ import type { User, UserFormData } from '@/api/userTypes'
 import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { object, string } from 'zod'
-import { createUser, getUser, updateUser } from '@/api/userQueries'
+import { createUser, getUser, updateUser, deleteUser } from '@/api/userQueries'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { useToast } from 'vue-toast-notification'
 import { computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 type UserIdObj = {
   userId: string
 }
 
 const props = defineProps<Partial<User & UserIdObj>>()
+const router = useRouter()
+
 const mutationKey = computed(() => ('id' in props ? ['updateUser', props.id] : ['createUser']))
 
 const { data, isLoading, error } = useQuery({
@@ -118,4 +122,17 @@ const onSubmit = handleSubmit((data) => {
 })
 
 const { value: userAvatar } = useField<string | undefined>('avatar')
+
+
+const {mutate: deleteThisUser} = useMutation({
+  mutationKey: ['userDelete', props.id],
+  mutationFn: async () => {
+    if (props.id === undefined) return null
+    await deleteUser(props.id)
+  },
+	onSuccess:()=>{
+		$toast.success("User deleted!")
+		router.back()
+	}
+})
 </script>

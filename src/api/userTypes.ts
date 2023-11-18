@@ -8,7 +8,7 @@ export interface UserListResponse {
 }
 
 export interface User {
-  id: number
+  id: number | string
   email: string
   first_name: string
   last_name: string
@@ -23,19 +23,19 @@ export interface Support {
 export type UserFormData = Pick<User, 'first_name' | 'last_name' | 'avatar'>
 
 export interface UserResponse {
-	data:    Data;
-	support: Support;
+  data: Data
+  support: Support
 }
 
 export interface Data {
-	id:         number;
-	email:      string;
-	first_name: string;
-	last_name:  string;
-	avatar:     string;
+  id: number
+  email: string
+  first_name: string
+  last_name: string
+  avatar: string
 }
 
 export interface Support {
-	url:  string;
-	text: string;
+  url: string
+  text: string
 }

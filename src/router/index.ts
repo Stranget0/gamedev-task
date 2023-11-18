@@ -7,7 +7,7 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'home', redirect: '/users/1' },
     { path: '/users/:page', name: 'users', component: UserListView, props: true },
-    { path: '/user/:passedUserId', name: 'user', component: UserView, props: true },
+    { path: '/user/:id', name: 'user', component: UserView, props: true },
     { path: '/add-user', name: 'add-user', component: UserView }
   ]
 })

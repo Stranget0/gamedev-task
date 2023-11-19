@@ -24,8 +24,7 @@
       :items="userResponse.data"
       :labels="userListLabels"
       :ListComponent="UserListItem"
-      ><template #header>
-        <UserListHeader /> </template
+      ><template #header> <UserListHeader /> </template
     ></AppList>
   </DefaultLayout>
   <AppPagination
@@ -41,14 +40,13 @@ import { Icon } from '@iconify/vue'
 import UserInput from '@/components/UserInput.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AppList from '@/components/AppList.vue'
-import { useQuery } from '@tanstack/vue-query'
-import { getUsers } from '@/api/userQueries'
 import UserListItem from '@/components/UserListItem.vue'
 import AppPagination from '@/components/AppPagination.vue'
 import { computed } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import UserListHeader from '@/components/UserListHeader.vue'
 import { RouterLink } from 'vue-router'
+import useUsersQuery from '@/composables/useUsersQuery'
 
 const userListLabels = [
   { text: 'Full name', class: 'col-start-2' },
@@ -58,15 +56,7 @@ const userListLabels = [
 const props = defineProps<{ page: string }>()
 const pageNum = computed(() => (Array.isArray(props.page) ? 1 : parseInt(props.page) || 1))
 
-const queryKey = computed(() => ['user-list', pageNum.value])
-const {
-  data: userResponse,
-  error,
-  isLoading
-} = useQuery({
-  queryKey,
-  queryFn: () => getUsers(pageNum.value)
-})
+const { data: userResponse, error, isLoading } = useUsersQuery(() => pageNum.value)
 
 const hrefFromPage = computed(() => (num: number) => ({ name: 'users', params: { page: num } }))
 </script>

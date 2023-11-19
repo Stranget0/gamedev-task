@@ -7,7 +7,7 @@ export default function useUserQuery(
   userId: () => number | string | undefined
 ): UseQueryReturnType<UserResponse, DefaultError> {
   return useQuery({
-    queryKey: ['getUser', userId()],
+    queryKey: ['user', userId()],
     queryFn: () => {
       const id = toValue(userId)
       if (id === undefined) {

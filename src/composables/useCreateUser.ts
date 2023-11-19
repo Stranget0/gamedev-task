@@ -1,12 +1,13 @@
 import { createUser } from '@/api/userQueries'
 import type { UserFormData } from '@/api/userTypes'
-import { useMutation, type MutationOptions, type UseMutationReturnType } from '@tanstack/vue-query'
+import { useMutation, type MutationOptions, type UseMutationReturnType, useQueryClient } from '@tanstack/vue-query'
 import { useToast } from 'vue-toast-notification'
 
 export default function useCreateUser(
   options?: MutationOptions<void, Error, UserFormData, unknown>
 ): UseMutationReturnType<void, Error, UserFormData, unknown> {
   const $toast = useToast()
+	const qc = useQueryClient()
 
   return useMutation({
     ...options,
@@ -17,6 +18,7 @@ export default function useCreateUser(
     onSuccess: (data, variables, ctx) => {
       $toast.success('User created successfully!')
       options?.onSuccess?.(data, variables, ctx)
+			qc.invalidateQueries({queryKey: ["userList"]})
     },
     onError: (error, variables, ctx) => {
 			$toast.error(`Error creating user ${error.message}`)
